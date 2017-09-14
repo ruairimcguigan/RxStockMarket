@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 (new StockData("Phyzer", valueOf(12.33), new Date())),
                 (new StockData("Coca Cola", valueOf(54.88), new Date())))
 
-                .subscribe(stockData -> {
-                    Log.d("APP", "New update " + stockData.getStockSymbol());
-                    stockDataAdapter.add(stockData);
-                });
+                .doOnNext(log -> Log.d("APP", "New update " + log.getStockSymbol()))
+                .subscribe(stockData -> stockDataAdapter.add(stockData));
     }
 }
