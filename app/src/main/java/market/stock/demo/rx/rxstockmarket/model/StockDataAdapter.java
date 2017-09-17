@@ -21,7 +21,7 @@ import market.stock.demo.rx.rxstockmarket.R;
 
 public class StockDataAdapter extends RecyclerView.Adapter<StockDataAdapter.StockUpdateViewHolder> {
 
-    private final List<StockData> data = new ArrayList<>();
+    private final List<StockUpdate> data = new ArrayList<>();
 
     @Override
     public StockUpdateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,7 +35,7 @@ public class StockDataAdapter extends RecyclerView.Adapter<StockDataAdapter.Stoc
     @Override
     public void onBindViewHolder(StockUpdateViewHolder holder, int position) {
 
-        StockData stockUpdate = data.get(position);
+        StockUpdate stockUpdate = data.get(position);
 
         holder.setStockSymbol(stockUpdate.getStockSymbol());
         holder.setPrice(stockUpdate.getPrice());
@@ -47,9 +47,18 @@ public class StockDataAdapter extends RecyclerView.Adapter<StockDataAdapter.Stoc
         return data.size();
     }
 
-    public void add(StockData stockSymbol) {
-        this.data.add(stockSymbol);
-        notifyItemInserted(data.size() - 1);
+    public void add(StockUpdate newStockUpdate) {
+        for (StockUpdate stockUpdate : data) {
+            if (stockUpdate.getStockSymbol().equals(newStockUpdate.getStockSymbol())) {
+                if (stockUpdate.getPrice().equals(newStockUpdate.getPrice())) {
+                    return;
+                }
+                break;
+            }
+        }
+
+        this.data.add(0, newStockUpdate);
+        notifyItemInserted(0);
     }
 
 
@@ -59,27 +68,27 @@ public class StockDataAdapter extends RecyclerView.Adapter<StockDataAdapter.Stoc
 
         @BindView(R.id.stock_item_symbol)
         TextView stockSymbol;
-
         @BindView(R.id.stock_item_date)
         TextView date;
-
         @BindView(R.id.stock_item_price)
         TextView price;
 
-        StockUpdateViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        StockUpdateViewHolder(View v) {
+            super(v);
+            ButterKnife.bind(this, v);
         }
 
-        public void setStockSymbol(String stockSymbol) {
+        void setStockSymbol(String stockSymbol) {
             this.stockSymbol.setText(stockSymbol);
         }
 
-        public void setPrice(BigDecimal price) {
-            this.price.setText(PRICE_FORMAT.format(price.floatValue()));
+        void setPrice(BigDecimal price) {
+            if (price != null) {
+                this.price.setText(PRICE_FORMAT.format(price.floatValue()));
+            }
         }
 
-        public void setDate(Date date) {
+        void setDate(Date date) {
             this.date.setText(DateFormat.format("yyyy-MM-dd hh:mm", date));
         }
     }

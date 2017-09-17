@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.math.BigDecimal;
 
-class YahooStockQuote {
+public class YahooStockQuote {
 
     private String symbol;
 
@@ -13,6 +13,9 @@ class YahooStockQuote {
 
     @SerializedName("DaysLow")
     private BigDecimal daysLow;
+
+    @SerializedName("LastTradePriceOnly")
+    private BigDecimal lastTradePriceOnly;
 
     @SerializedName("DaysHigh")
     private BigDecimal daysHigh;
@@ -58,5 +61,13 @@ class YahooStockQuote {
 
     public void setVolume(String volume) {
         this.volume = volume;
+    }
+
+    public BigDecimal getLastTradePriceOnly() {
+        return lastTradePriceOnly;
+    }
+
+    public void setLastTradePriceOnly(BigDecimal lastTradePriceOnly) {
+        this.lastTradePriceOnly = lastTradePriceOnly;
     }
 }

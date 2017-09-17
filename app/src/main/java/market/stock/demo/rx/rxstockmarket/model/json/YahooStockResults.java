@@ -3,7 +3,7 @@ package market.stock.demo.rx.rxstockmarket.model.json;
 
 import java.util.List;
 
-class YahooStockResults {
+public class YahooStockResults {
 
     private List<YahooStockQuote> quote;
 

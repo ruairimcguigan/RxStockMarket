@@ -1,10 +1,9 @@
 package market.stock.demo.rx.rxstockmarket.utils;
 
-/**
- * Created by c0249298 on 15/09/2017.
- */
 
 public class Constants {
 
     public static final String BASE_URL = "https://query.yahooapis.com/v1/public/";
+    public static String QUERY = "select * from yahoo.finance.quote where symbol in ('YHOO','AAPL','GOOG','MSFT')";
+    public static String ENV = "store://datatables.org/alltableswithkeys";
 }
