@@ -2,7 +2,7 @@ package market.stock.demo.rx.rxstockmarket.model.getstockupdate;
 
 import android.util.Log;
 
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -16,7 +16,6 @@ import static market.stock.demo.rx.rxstockmarket.utils.Constants.QUERY;
 
 public class GetStockUpdatePresenter {
     private  GetStockUpdateView view;
-    List<StockUpdate> data;
 
     private static final String TAG = GetStockUpdatePresenter.class.getSimpleName();
 
@@ -27,13 +26,15 @@ public class GetStockUpdatePresenter {
     public void getStockQuote(){
         YahooService yahooService = new YahooServiceGeneratorFactory().create();
 
-        yahooService.yqlQuery(QUERY, ENV)
+        Observable.interval(0,5, TimeUnit.SECONDS)
+                .flatMap(i -> yahooService.yqlQuery(QUERY, ENV)
+                .toObservable())
                 .subscribeOn(Schedulers.io())
-                .toObservable()
                 .map(r -> r.getQuery().getResults().getQuote())
                 .flatMap(r -> Observable.fromIterable(r))
                 .map(r -> StockUpdate.create(r))
                 .observeOn(AndroidSchedulers.mainThread())
+
                 .subscribe(stockUpdate -> {
                     Log.d("APP", "New update " + stockUpdate.getStockSymbol());
                     view.showStockUpdates(stockUpdate);

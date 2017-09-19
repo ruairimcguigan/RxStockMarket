@@ -63,7 +63,9 @@ public class GetStockUpdateActivity extends AppCompatActivity
 
     @Override
     public void showStockUpdates(StockUpdate stockUpdate) {
-        stockDataAdapter.add(stockUpdate);
+        if (stockUpdate != null) {
+            stockDataAdapter.add(stockUpdate);
+        }
     }
 
     @Override

@@ -49,11 +49,14 @@ public class StockDataAdapter extends RecyclerView.Adapter<StockDataAdapter.Stoc
 
     public void add(StockUpdate newStockUpdate) {
         for (StockUpdate stockUpdate : data) {
-            if (stockUpdate.getStockSymbol().equals(newStockUpdate.getStockSymbol())) {
-                if (stockUpdate.getPrice().equals(newStockUpdate.getPrice())) {
-                    return;
+
+            if (stockUpdate.getPrice() != null) {
+                if (stockUpdate.getStockSymbol().equals(newStockUpdate.getStockSymbol())) {
+                    if (stockUpdate.getPrice().equals(newStockUpdate.getPrice())) {
+                        return;
+                    }
+                    break;
                 }
-                break;
             }
         }
 
